@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link href="Estilos.css" rel="stylesheet" type="text/css">
+        <Title>Datos</Title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript">
+    </script>
+    <body>
+        <!-- <form method="POST"> -->
+        <div class="container">
+            <div class="form-group">
+                <label for="exampleInputNombre1">Nombre:</label>
+                <input type="text" class="form-control" id="texto" name="texto" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEdad1">Edad:</label>
+                <input type="number" class="form-control" id="numero" name="numero" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputFecha1">Fecha de nacimiento:</label>
+                <input type="date" class="form-control" id="fecha" name="fecha" autocomplete="off">
+            </div>
+            <div>
+                <button id="save" class="btn btn-primary">Validar</button>
+            </div>
+            <div>
+                <button id="saving" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+        <!-- </form> -->
+    </body>
+    <script>
+        // Funcion para guardar datos en ella.
+        function getData(){
+            const nombre= $('#texto').val();
+            const edad= $('#numero').val();
+            const fecha_nacimiento= $('#fecha').val();
+            console.log(nombre,edad,fecha_nacimiento);
+            return{
+                texto: nombre,
+                numero: edad.toString(),
+                fecha: fecha_nacimiento,
+            }
+        }
+        $(document).on ('click','#save',function(){
+            $.ajax({
+                method: "POST",
+                url: "Validate.php",
+                data: getData(),
+            })
+            .done(function(data){
+                console.log(data);
+                data=JSON.parse(data);
+                if(data.lenght<1){
+                    console.log("Todo correcto");
+                    return;
+                }
+                console.log(typeof data)
+                data.correcto.forEach(function(correcto){
+                    console.log(correcto);
+                    $('#'+correcto).addClass("alert alert-success");
+                    if($('#'+correcto).parent().find('small').length >0){
+                        $('#'+correcto).parent().find('small').hide();
+                        $('#'+correcto).removeClass("alert-danger").addClass("alert-success");
+                    }
+                })
+                data.error.forEach(function(error){
+                    console.log(error);
+                    $('#'+error).addClass("alert alert-danger");
+                    // Sale al padre y Si no tiene small lo añade por tener menos caracteres
+                    if($('#'+error).parent().find('small').length <1){
+                        $('#'+error).after("<small>No es valido</small>");
+                    }
+                })
+            })
+        })
+        $(document).on('click','#saving',function(){
+            $.ajax({
+                method: "POST",
+                url: "save_validate.php",
+                data: getData(),
+            })
+        })
+    </script>
+</html> 
