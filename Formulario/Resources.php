@@ -16,8 +16,11 @@ class Resources
     }
     public function save_validate($nombre, $edad, $fecha)
     {
-        $fecha = Date('Y-m-d', strtotime($fecha));
-        Db::getInstance()->execute("INSERT INTO" . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES($nombre,$edad,$fecha,NOW(),NOW())");
-        return;
+        $fecha = date('Y-m-d', strtotime($fecha));
+        return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES('$nombre',$edad,'$fecha',NOW(),NOW())");
+    }
+    public function delete($nombre, $edad, $fecha)
+    {
+        return Db::getInstance()->execute("DELETE FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'");
     }
 }
