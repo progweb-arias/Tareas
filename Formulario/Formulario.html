@@ -57,6 +57,17 @@
                     }
                 })
         }
+        function showCorrectos(data){
+                data.forEach(function(correcto){
+                    console.log(correcto);
+                    $('#'+correcto).addClass("alert alert-success");
+                    if($('#'+correcto).parent().find('small').length >0){
+                        $('#'+correcto).parent().find('small').hide();
+                        $('#'+correcto).removeClass("alert-danger").addClass("alert-success");
+                    }
+                })
+
+        }
         $(document).on ('click','#validate',function(){
             $.ajax({
                 method: "POST",
@@ -71,14 +82,7 @@
                     return;
                 }
                 console.log(typeof data)
-                data.correcto.forEach(function(correcto){
-                    console.log(correcto);
-                    $('#'+correcto).addClass("alert alert-success");
-                    if($('#'+correcto).parent().find('small').length >0){
-                        $('#'+correcto).parent().find('small').hide();
-                        $('#'+correcto).removeClass("alert-danger").addClass("alert-success");
-                    }
-                })
+                showCorrectos(data.correcto);
                 showErrors(data.error);
             })
         })
@@ -97,14 +101,17 @@
                     return;
                 }
                 $('#result').show().addClass("alert");
+                $('#result').empty();
                 if(resultados){
                     $('#result').addClass("alert-success");
                     $('#result').append('Todo correcto');
+                    $('.form-group input').removeClass('alert-danger').addClass('alert-success');
+                    $('.form-group small').hide();
                 }
                 else{
                     $('#result').addClass("alert-danger");
                     $('#result').append('Error');
-
+                    $('.form-group small').show();    
                 }
             })
         })
