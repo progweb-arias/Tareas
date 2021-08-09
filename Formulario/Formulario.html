@@ -22,11 +22,15 @@
                 <input type="date" class="form-control" id="fecha" name="fecha" autocomplete="off">
             </div>
             <div>
-                <button id="save" class="btn btn-primary">Validar</button>
+                <button id="validate" class="btn btn-primary">Validar</button>
             </div>
             <div>
                 <button id="saving" class="btn btn-primary">Guardar</button>
             </div>
+            <div>
+                <button id="delete" class="btn btn-primary"> Borrar</button>
+            </div>
+            <div id="result" style= "display: none"></div>
         </div>
         <!-- </form> -->
     </body>
@@ -43,7 +47,17 @@
                 fecha: fecha_nacimiento,
             }
         }
-        $(document).on ('click','#save',function(){
+        function showErrors(data){
+                data.forEach(function(error){
+                    console.log(error);
+                    $('#'+error).addClass("alert alert-danger");
+                    // Sale al padre y Si no tiene small lo añade por tener menos caracteres
+                    if($('#'+error).parent().find('small').length <1){
+                        $('#'+error).after("<small>No es valido</small>");
+                    }
+                })
+        }
+        $(document).on ('click','#validate',function(){
             $.ajax({
                 method: "POST",
                 url: "Validate.php",
@@ -65,20 +79,39 @@
                         $('#'+correcto).removeClass("alert-danger").addClass("alert-success");
                     }
                 })
-                data.error.forEach(function(error){
-                    console.log(error);
-                    $('#'+error).addClass("alert alert-danger");
-                    // Sale al padre y Si no tiene small lo añade por tener menos caracteres
-                    if($('#'+error).parent().find('small').length <1){
-                        $('#'+error).after("<small>No es valido</small>");
-                    }
-                })
+                showErrors(data.error);
             })
         })
         $(document).on('click','#saving',function(){
             $.ajax({
                 method: "POST",
                 url: "save_validate.php",
+                data: getData(),
+            })
+            .done(function(data){
+                console.log(data);
+                resultados=JSON.parse(data);
+                if(typeof resultados.error !='undefined'){
+                    showErrors(resultados.error);
+                    $('#result').hide();
+                    return;
+                }
+                $('#result').show().addClass("alert");
+                if(resultados){
+                    $('#result').addClass("alert-success");
+                    $('#result').append('Todo correcto');
+                }
+                else{
+                    $('#result').addClass("alert-danger");
+                    $('#result').append('Error');
+
+                }
+            })
+        })
+        $(document).on('click','#delete',function(){
+            $.ajax({
+                method: "POST",
+                url: "",
                 data: getData(),
             })
         })
