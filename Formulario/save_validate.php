@@ -8,4 +8,12 @@ if (!isset($_POST['texto']) || !isset($_POST['numero']) || !isset($_POST['fecha'
     return;
 }
 $resources = new Resources();
-$resources->save_validate($_POST['texto'], $_POST['edad'], $_POST['fecha']);
+$validacion = $resources->validate($_POST['texto'], $_POST['numero'], $_POST['fecha']);
+if (count($validacion['correcto']) == 3) {
+    $resultados = $resources->save_validate($_POST['texto'], $_POST['numero'], $_POST['fecha']);
+} else {
+    $resultados = $validacion;
+}
+
+
+die(json_encode($resultados));
