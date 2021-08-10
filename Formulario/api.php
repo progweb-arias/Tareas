@@ -16,7 +16,6 @@ switch ($action) {
         // Para el caso validate
     case 'validate':
         $resultados = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
-        die(json_encode($resultados));
         break;
         // Para el caso save_validate
     case 'save_validate':
@@ -26,13 +25,12 @@ switch ($action) {
         } else {
             $resultados = $validacion;
         }
-        die(json_encode($resultados));
         break;
         // Para el caso delete
     case 'delete':
         $resultados = $resources->delete(Tools::getValue('texto', ''));
-        die(json_encode($resultados));
         break;
     default:
         break;
 }
+die(json_encode($resultados));
