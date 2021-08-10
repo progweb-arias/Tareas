@@ -31,6 +31,7 @@ switch ($action) {
         $resultados = $resources->delete(Tools::getValue('texto', ''));
         break;
     default:
+        $resultados = 'a';
         break;
 }
 die(json_encode($resultados));
