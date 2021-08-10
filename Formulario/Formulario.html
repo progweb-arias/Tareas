@@ -36,7 +36,6 @@
             const nombre= $('#texto').val();
             const edad= $('#numero').val();
             const fecha_nacimiento= $('#fecha').val();
-            console.log(nombre,edad,fecha_nacimiento);
             return{
                 texto: nombre,
                 numero: edad.toString(),
@@ -45,7 +44,6 @@
         }
         function showErrors(data){
                 data.forEach(function(error){
-                    console.log(error);
                     $('#'+error).addClass("alert alert-danger");
                     // Sale al padre y Si no tiene small lo añade por tener menos caracteres
                     if($('#'+error).parent().find('small').length <1){
@@ -55,7 +53,6 @@
         }
         function showCorrectos(data){
                 data.forEach(function(correcto){
-                    console.log(correcto);
                     $('#'+correcto).addClass("alert alert-success");
                     if($('#'+correcto).parent().find('small').length >0){
                         $('#'+correcto).parent().find('small').hide();
@@ -71,25 +68,21 @@
                 data: getData(),
             })
             .done(function(data){
-                console.log(data);
                 data=JSON.parse(data);
                 if(data.lenght<1){
-                    console.log("Todo correcto");
                     return;
                 }
-                console.log(typeof data)
                 showCorrectos(data.correcto);
                 showErrors(data.error);
             })
         })
         $(document).on('click','#saving',function(){
             $.ajax({
-                method: "POST",
-                url: "save_validate.php",
+                method: "GET",
+                url: "api.php?action=save_validate",
                 data: getData(),
             })
             .done(function(data){
-                console.log(data);
                 resultados=JSON.parse(data);
                 if(typeof resultados.error !='undefined'){
                     showErrors(resultados.error);
@@ -123,9 +116,7 @@
                     data: getData(),
                 })
                 .done(function(data){
-                    console.log(data);
                     resultados=JSON.parse(data);
-                    console.log(typeof resultados);
                     $('#result').show().addClass("alert");
                     $('#result').empty();
                     if(typeof resultados == 'boolean'){
