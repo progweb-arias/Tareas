@@ -41,8 +41,13 @@ class Resources
      * 
      * @return bool
      */
-    public function delete(string $nombre): bool
+    public function delete(string $nombre)
     {
-        return Db::getInstance()->execute("DELETE FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'");
+        $array = [];
+        if (count(Db::getInstance()->executeS("SELECT Nombre FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'"))) {
+            return Db::getInstance()->execute("DELETE FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'");
+        } else {
+            return $array;
+        }
     }
 }
