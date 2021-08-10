@@ -63,12 +63,19 @@
         }
         $(document).on ('click','#validate',function(){
             $.ajax({
-                method: "GET",
+                method: "POST",
                 url: "api.php?action=validate",
                 data: getData(),
             })
             .done(function(data){
                 data=JSON.parse(data);
+                $('#result').show().addClass("alert");
+                $('#result').empty();
+                if(typeof (data) == 'string'){
+                        $('#result').addClass('alert-danger');
+                        $('#result').append('Fallo en el Action.');
+                       return;
+                    }
                 if(data.lenght<1){
                     return;
                 }
@@ -78,12 +85,19 @@
         })
         $(document).on('click','#saving',function(){
             $.ajax({
-                method: "GET",
+                method: "POST",
                 url: "api.php?action=save_validate",
                 data: getData(),
             })
             .done(function(data){
                 resultados=JSON.parse(data);
+                $('#result').show().addClass("alert");
+                $('#result').empty();
+                if(typeof (resultados) == 'string'){
+                        $('#result').addClass('alert-danger');
+                        $('#result').append('Fallo en el Action.');
+                       return;
+                }
                 if(typeof resultados.error !='undefined'){
                     showErrors(resultados.error);
                     $('#result').hide();
@@ -111,7 +125,7 @@
             }
             else{
                 $.ajax({
-                    method: "GET",
+                    method: "POST",
                     url: "api.php?action=delete",
                     data: getData(),
                 })
@@ -119,9 +133,13 @@
                     resultados=JSON.parse(data);
                     $('#result').show().addClass("alert");
                     $('#result').empty();
+                    if(typeof (resultados) == 'string'){
+                        $('#result').addClass('alert-danger');
+                        $('#result').append('Fallo en el Action.');
+                       return;
+                    }
                     if(typeof resultados == 'boolean'){
                         if(resultados){
-                            $('#result').addClass('alert-success');
                             $('#result').append('Datos Borrados');
                             $('#result').removeClass('alert-danger').addClass('alert-success');
                         }
@@ -133,7 +151,7 @@
                         return;
                     }
                     $('#result').addClass("alert-danger");
-                    $('#result').append("No hay datos");  
+                    $('#result').append("No hay datos en la tabla");  
                 })
             }
         })
