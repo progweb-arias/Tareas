@@ -32,6 +32,7 @@ class Resources
      */
     public function save_validate(string $nombre, int $edad, string $fecha): bool
     {
+        $this->validate($nombre, $edad, $fecha);
         $fecha = date('Y-m-d', strtotime($fecha));
         return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES('$nombre',$edad,'$fecha',NOW(),NOW())");
     }
