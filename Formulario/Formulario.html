@@ -116,11 +116,39 @@
             })
         })
         $(document).on('click','#delete',function(){
-            $.ajax({
-                method: "POST",
-                url: "",
-                data: getData(),
-            })
+            if($('#texto').val().trim().length<1){
+                $('#result').show().addClass("alert alert-danger");
+                $('#result').append("Error");
+            }
+            else{
+                $.ajax({
+                    method: "POST",
+                    url: "delete.php",
+                    data: getData(),
+                })
+                .done(function(data){
+                    console.log(data);
+                    resultados=JSON.parse(data);
+                    console.log(typeof resultados);
+                    $('#result').show().addClass("alert");
+                    $('#result').empty();
+                    if(typeof resultados == 'boolean'){
+                        if(resultados){
+                            $('#result').addClass('alert-success');
+                            $('#result').append('Datos Borrados');
+                            $('#result').removeClass('alert-danger').addClass('alert-success');
+                        }
+                        else{
+                        $('#result').addClass('alert-danger');
+                        $('#result').append('Error');
+                        $('#result').removeClass('alert-success').addClass('alert-danger');
+                        }
+                        return;
+                    }
+                    $('#result').addClass("alert-danger");
+                    $('#result').append("No hay datos");  
+                })
+            }
         })
     </script>
 </html> 
