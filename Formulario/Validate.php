@@ -12,7 +12,7 @@ if (!isset($_POST['texto']) || !isset($_POST['numero']) || !isset($_POST['fecha'
 }
 
 $resources = new Resources();
-$resultados = $resources->validate($_POST['texto'], $_POST['numero'], $_POST['fecha']);
+$resultados = $resources->validate($_POST['texto'], (int)$_POST['numero'], $_POST['fecha']);
 
 die(json_encode($resultados));
 
