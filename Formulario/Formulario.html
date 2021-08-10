@@ -21,13 +21,9 @@
                 <label for="exampleInputFecha1">Fecha de nacimiento:</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" autocomplete="off">
             </div>
-            <div>
+            <div style="margin-top: 5px;">
                 <button id="validate" class="btn btn-primary">Validar</button>
-            </div>
-            <div>
                 <button id="saving" class="btn btn-primary">Guardar</button>
-            </div>
-            <div>
                 <button id="delete" class="btn btn-primary"> Borrar</button>
             </div>
             <div id="result" style= "display: none"></div>
@@ -70,8 +66,8 @@
         }
         $(document).on ('click','#validate',function(){
             $.ajax({
-                method: "POST",
-                url: "Validate.php",
+                method: "GET",
+                url: "api.php?action=validate",
                 data: getData(),
             })
             .done(function(data){
