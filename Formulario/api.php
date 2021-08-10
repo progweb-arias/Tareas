@@ -11,16 +11,15 @@ require_once 'Resources.php';
 $action = Tools::getValue('action', '');
 //Entrar en el switch con el valor del action obtenido anteriormente y realizar las distintas llamadas en funcion 
 //dicho valor
+$resources = new Resources();
 switch ($action) {
         // Para el caso validate
     case 'validate':
-        $resources = new Resources();
         $resultados = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
         die(json_encode($resultados));
         break;
         // Para el caso save_validate
     case 'save_validate':
-        $resources = new Resources();
         $validacion = $resources->validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
         if (count($validacion['correcto']) == 3) {
             $resultados = $resources->save_validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
@@ -31,8 +30,9 @@ switch ($action) {
         break;
         // Para el caso delete
     case 'delete':
-        $resources = new Resources();
         $resultados = $resources->delete(Tools::getValue('texto', ''));
         die(json_encode($resultados));
+        break;
+    default:
         break;
 }
