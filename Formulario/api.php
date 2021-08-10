@@ -15,13 +15,13 @@ $resources = new Resources();
 switch ($action) {
         // Para el caso validate
     case 'validate':
-        $resultados = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
+        $resultados = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
         break;
         // Para el caso save_validate
     case 'save_validate':
-        $validacion = $resources->validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
+        $validacion = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
         if (count($validacion['correcto']) == 3) {
-            $resultados = $resources->save_validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
+            $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
         } else {
             $resultados = $validacion;
         }
