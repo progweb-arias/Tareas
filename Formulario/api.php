@@ -21,9 +21,9 @@ switch ($action) {
         // Para el caso save_validate
     case 'save_validate':
         $resources = new Resources();
-        $validacion = $resources->validate($_POST['texto'], $_POST['numero'], $_POST['fecha']);
+        $validacion = $resources->validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
         if (count($validacion['correcto']) == 3) {
-            $resultados = $resources->save_validate($_POST['texto'], $_POST['numero'], $_POST['fecha']);
+            $resultados = $resources->save_validate(Tools::getValue('texto', ''), Tools::getValue('numero', ''), Tools::getValue('fecha', ''));
         } else {
             $resultados = $validacion;
         }
