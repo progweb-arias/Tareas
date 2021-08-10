@@ -111,8 +111,8 @@
             }
             else{
                 $.ajax({
-                    method: "POST",
-                    url: "delete.php",
+                    method: "GET",
+                    url: "api.php?action=delete",
                     data: getData(),
                 })
                 .done(function(data){
