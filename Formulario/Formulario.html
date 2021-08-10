@@ -71,6 +71,7 @@
                 data=JSON.parse(data);
                 $('#result').show().addClass("alert");
                 $('#result').empty();
+                // Comprobacion del action 
                 if(typeof (data) == 'string'){
                         $('#result').addClass('alert-danger');
                         $('#result').append('Fallo en el Action.');
@@ -93,6 +94,7 @@
                 resultados=JSON.parse(data);
                 $('#result').show().addClass("alert");
                 $('#result').empty();
+                // Comprobacion del action
                 if(typeof (resultados) == 'string'){
                         $('#result').addClass('alert-danger');
                         $('#result').append('Fallo en el Action.');
@@ -133,6 +135,7 @@
                     resultados=JSON.parse(data);
                     $('#result').show().addClass("alert");
                     $('#result').empty();
+                    // Comprobar el action
                     if(typeof (resultados) == 'string'){
                         $('#result').addClass('alert-danger');
                         $('#result').append('Fallo en el Action.');
