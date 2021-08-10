@@ -32,7 +32,7 @@ switch ($action) {
         // Para el caso delete
     case 'delete':
         $resources = new Resources();
-        $resultados = $resources->delete($_POST['texto']);
+        $resultados = $resources->delete(Tools::getValue('texto', ''));
         die(json_encode($resultados));
         break;
 }
