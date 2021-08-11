@@ -49,7 +49,7 @@ class Resources
     {
         $array = [];
         if (count(Db::getInstance()->executeS("SELECT Nombre FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'"))) {
-            return Db::getInstance()->execute("DELETE FROM " . _DB_PREFIX_ . "formulario WHERE Nombre='$nombre'");
+            return Db::getInstance()->execute("UPDATE " . _DB_PREFIX_ . "formulario SET deleted=1 , date_deleted=NOW() WHERE Nombre='$nombre'");
         } else {
             return $array;
         }
