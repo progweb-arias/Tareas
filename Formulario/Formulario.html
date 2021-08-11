@@ -132,6 +132,10 @@
         })
         // Cuando das click en boton borrar
         $(document).on('click','#delete',function(){
+            $confirmacion = confirm("Estas seguro?");
+            if(!$confirmacion){
+                return;
+            }
             // Si no encuentra los datos introducidos saca mensaje error
             if($('#texto').val().trim().length<1){
                 $('#texto').addClass("alert alert-danger");
