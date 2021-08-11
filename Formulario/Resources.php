@@ -65,49 +65,19 @@ class Resources
      */
     public function search(string $nombre, string $fecha_desde, string $fecha_hasta, int $borrado)
     {
-        if ($borrado < 1) {
-            $comprobacion = ['rellenados' => '', 'blanco' => ''];
-            $campos = array("texto" => $nombre, "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta, "borrados" => $borrado);
-            foreach ($campos as $key => $i) {
-                if (empty(trim($key))) {
-                    $comprobacion['rellenados'][] = $key;
-                } else {
-                    $comprobacion['blanco'][] = $key;
-                }
-                if (count($comprobacion['rellenados']) == 3) {
-                    return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE Nombre=$nombre,deleted=0,Fecha between $fecha_desde and $fecha_hasta");
-                } else {
-                    if (count($comprobacion['blanco']) == 1) {
-                        foreach ($comprobacion['blanco'] as $key => $i) {
-                            if ($key = 'texto') {
-                                return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE deleted=0");
-                            }
-                            if ($key = 'fecha_desde') {
-                                return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE Nombre=$nombre,deleted=0,Fecha<$fecha_hasta");
-                            }
-                            if ($key = 'fecha_hasta') {
-                                return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE Nombre=$nombre,deleted=0,Fecha>$fecha_desde");
-                            }
-                        }
-                    } else {
-                    }
-                }
-            }
-        }
+        // $comprobacion = ['rellenados' => '', 'blanco' => ''];
+        // $campos = array("texto" => $nombre, "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta, "borrados" => $borrado);
+        // foreach ($campos as $key => $i) {
+        //     if (empty(trim($key))) {
+        //         $comprobacion['rellenados'][] = $key;
+        //     } else {
+        //         $comprobacion['blanco'][] = $key;
+        //     }
+        // }
+        // if (count($comprobacion['rellenados']) == 4) {
+        return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE deleted=$borrado");
+
+        // }
+        // return $comprobacion;
     }
-    // $comprobacion = ['rellenados' => '', 'blanco' => ''];
-    // $campos = array("texto" => $nombre, "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta, "borrados" => $borrado);
-    // foreach ($campos as $key => $i) {
-    //     if (empty(trim($key))) {
-    //         $comprobacion['rellenados'][] = $key;
-    //     } else {
-    //         $comprobacion['blanco'][] = $key;
-    //     }
-    // }
-    // if (count($comprobacion['rellenados']) == 4) {
-    // return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE Nombre=$nombre,deleted=$borrado,Fecha between $fecha_desde and $fecha_hasta");
-
-    // }
-    // return $comprobacion;
-
 }
