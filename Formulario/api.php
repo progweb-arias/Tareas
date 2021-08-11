@@ -21,15 +21,15 @@ switch ($action) {
         // Para el caso save_validate
     case 'save_validate':
         // llamar la funcion de validar y guardandola en $validacion
-        $validacion = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
+        // $validacion = $resources->validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
         // pasar el resultado de la funcion y comprobar que todos los parametros son correctos
-        if (count($validacion['correcto']) == 3) {
-            // si lo son llamar la funcion de save_validate y almacenarla en $resultados
-            $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
-        } else {
-            // si no almacenar los datos en $resultado
-            $resultados = $validacion;
-        }
+        // if (count($validacion['correcto']) == 3) {
+        // si lo son llamar la funcion de save_validate y almacenarla en $resultados
+        $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
+        // } else {
+        // si no almacenar los datos en $resultado
+        // $resultados = $validacion;
+        // }
         break;
         // Para el caso delete 
     case 'delete':
