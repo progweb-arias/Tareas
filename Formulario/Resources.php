@@ -30,11 +30,14 @@ class Resources
      * 
      * @return bool
      */
-    public function save_validate(string $nombre, int $edad, string $fecha): bool
+    public function save_validate(string $nombre, int $edad, string $fecha)
     {
-        $this->validate($nombre, $edad, $fecha);
-        $fecha = date('Y-m-d', strtotime($fecha));
-        return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES('$nombre',$edad,'$fecha',NOW(),NOW())");
+        $variable = $this->validate($nombre, $edad, $fecha);
+        if (count($variable['correcto']) == 3) {
+            $fecha = date('Y-m-d', strtotime($fecha));
+            return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES('$nombre',$edad,'$fecha',NOW(),NOW())");
+        }
+        return $variable;
     }
     /**
      * Funcion de borrar en la tabla
