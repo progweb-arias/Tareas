@@ -37,6 +37,10 @@ switch ($action) {
         $resultados = $resources->delete(Tools::getValue('texto', ''));
         break;
         // en caso de que no entren en ningun caso por no establecer bien el action
+        // Para el caso showTable
+    case 'search':
+        $resultados = $resources->search(Tools::getValue('texto', ''), Tools::getValue('fecha_desde', ''), Tools::getValue('fecha_hasta', ''), (int)Tools::getValue('borrado', 0));
+        break;
     default:
         // devuelve un string
         $resultados = 'a';
