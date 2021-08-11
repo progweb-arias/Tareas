@@ -44,6 +44,7 @@
         }
         function showErrors(data){
                 data.forEach(function(error){
+                    $('#result').hide().removeClass("alert-danger").removeClass("alert-success").addClass("alert");
                     $('#'+error).addClass("alert alert-danger");
                     // Sale al padre y Si no tiene small lo añade por tener menos caracteres
                     if($('#'+error).parent().find('small').length <1){
@@ -53,6 +54,7 @@
         }
         function showCorrectos(data){
                 data.forEach(function(correcto){
+                    $('#result').hide().removeClass("alert-danger").removeClass("alert-success").addClass("alert");
                     $('#'+correcto).addClass("alert alert-success");
                     if($('#'+correcto).parent().find('small').length >0){
                         $('#'+correcto).parent().find('small').hide();
@@ -72,9 +74,9 @@
             if(typeof (data) == 'string'){
                         $('#result').addClass('alert-danger');
                         $('#result').append('Fallo en el Action.');
-                        return true;
+                        return false;
                 }
-            return false;
+            return true;
         }
         // Cuando das click en boton validar
         $(document).on ('click','#validate',function(){
@@ -84,10 +86,8 @@
             callApi.done(function(data){
                 // Traducir los datos que recibe del encode que hay en api.php con el JSON.parse
                 resultados=JSON.parse(data);
-                $('#result').show().addClass("alert");
-                $('#result').empty();
                 // Comprobacion del action 
-                if(checkUrl(resultados)){
+                if(!checkUrl(resultados)){
                     return;
                 };
                 if(data.lenght<1){
@@ -105,10 +105,10 @@
             callApi.done(function(data){
                 // Traducir los datos que recibe del encode que hay en api.php con el JSON.parse
                 resultados=JSON.parse(data);
-                $('#result').show().addClass("alert");
+                $('#result').show().removeClass("alert-danger").removeClass("alert-success").addClass("alert");
                 $('#result').empty();
                 // Comprobacion del action
-                if(checkUrl(resultados)){
+                if(!checkUrl(resultados)){
                     return;
                 };
                 if(typeof resultados.error !='undefined'){
@@ -116,18 +116,17 @@
                     $('#result').hide();
                     return;
                 }
-                $('#result').show().addClass("alert");
-                $('#result').empty();
                 if(resultados){
-                    $('#result').addClass("alert-success");
-                    $('#result').append('Todo correcto');
+                    $('.form-group input').addClass('alert-success');
+                    $('#result').addClass('alert-success').append('Todo correcto');
                     $('.form-group input').removeClass('alert-danger').addClass('alert-success');
                     $('.form-group small').hide();
                 }
                 else{
                     $('#result').addClass("alert-danger");
-                    $('#result').append('Error');
                     $('.form-group small').show();    
+                    $('.form-group input').removeClass('alert-success').addClass('alert-danger');
+                    $('#result').append('Faltan Datos');
                 }
             })
         })
@@ -135,8 +134,10 @@
         $(document).on('click','#delete',function(){
             // Si no encuentra los datos introducidos saca mensaje error
             if($('#texto').val().trim().length<1){
+                $('#texto').addClass("alert alert-danger");
+                $('#result').empty();
                 $('#result').show().addClass("alert alert-danger");
-                $('#result').append("Error");
+                $('#result').append("Error.Falta atributo nombre");
             }
             // Si encuentra entra en el ajax y introduce parametros en api.php
             else{
@@ -148,7 +149,7 @@
                     $('#result').show().addClass("alert");
                     $('#result').empty();
                     // Comprobar el action
-                    if(checkUrl(resultados)){
+                    if(!checkUrl(resultados)){
                         return;
                     };
                     if(typeof resultados == 'boolean'){
@@ -156,13 +157,9 @@
                             $('#result').append('Datos Borrados');
                             $('#result').removeClass('alert-danger').addClass('alert-success');
                         }
-                        else{
-                        $('#result').addClass('alert-danger');
-                        $('#result').append('Error');
-                        $('#result').removeClass('alert-success').addClass('alert-danger');
-                        }
                         return;
                     }
+                    $('.form-group input').removeClass('alert-danger').addClass('alert-success');
                     $('#result').addClass("alert-danger");
                     $('#result').append("No hay datos en la tabla");  
                 })
