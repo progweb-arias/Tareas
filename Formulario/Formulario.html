@@ -68,6 +68,14 @@
                 data: getData(),
             });
         }
+        function checkUrl(data){
+            if(typeof (data) == 'string'){
+                        $('#result').addClass('alert-danger');
+                        $('#result').append('Fallo en el Action.');
+                        return true;
+                }
+            return false;
+        }
         // Cuando das click en boton validar
         $(document).on ('click','#validate',function(){
             // Entra en el ajax y introduce parametros en api.php
@@ -75,20 +83,18 @@
             // Una vez mandado los datos realiza los siguientes pasos
             callApi.done(function(data){
                 // Traducir los datos que recibe del encode que hay en api.php con el JSON.parse
-                data=JSON.parse(data);
+                resultados=JSON.parse(data);
                 $('#result').show().addClass("alert");
                 $('#result').empty();
                 // Comprobacion del action 
-                if(typeof (data) == 'string'){
-                        $('#result').addClass('alert-danger');
-                        $('#result').append('Fallo en el Action.');
-                       return;
-                    }
+                if(checkUrl(resultados)){
+                    return;
+                };
                 if(data.lenght<1){
                     return;
                 }
-                showCorrectos(data.correcto);
-                showErrors(data.error);
+                showCorrectos(resultados.correcto);
+                showErrors(resultados.error);
             })
         })
         // Cuando das en click en boton guardar
@@ -102,11 +108,9 @@
                 $('#result').show().addClass("alert");
                 $('#result').empty();
                 // Comprobacion del action
-                if(typeof (resultados) == 'string'){
-                        $('#result').addClass('alert-danger');
-                        $('#result').append('Fallo en el Action.');
-                       return;
-                }
+                if(checkUrl(resultados)){
+                    return;
+                };
                 if(typeof resultados.error !='undefined'){
                     showErrors(resultados.error);
                     $('#result').hide();
@@ -144,11 +148,9 @@
                     $('#result').show().addClass("alert");
                     $('#result').empty();
                     // Comprobar el action
-                    if(typeof (resultados) == 'string'){
-                        $('#result').addClass('alert-danger');
-                        $('#result').append('Fallo en el Action.');
-                       return;
-                    }
+                    if(checkUrl(resultados)){
+                        return;
+                    };
                     if(typeof resultados == 'boolean'){
                         if(resultados){
                             $('#result').append('Datos Borrados');
