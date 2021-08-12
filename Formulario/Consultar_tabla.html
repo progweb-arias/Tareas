@@ -22,25 +22,47 @@
                 </div>
                 <div class="form-group mx-sm-3">
                     <label for="boton" class="sr-only"></label>
-                    <input type="hidden" name="boton" value="0"/>
-                    <input name="boton" type="checkbox" checked data-toggle="toggle" data-onstyle="primary" id="boton" value="0">
+                    <input name="boton" type="checkbox" checked data-toggle="toggle" data-onstyle="primary" id="boton">
                 </div>
                 <button type="button" class="btn btn-primary" id="enviar">Enviar</button>
         </form>
+        <table class="table" id="tabla">
+            <tr>
+                <th id="id">Id</th>
+                <th id="nombre">Nombre</th>
+                <th id="edad">Edad</th>
+                <th id="fecha">Fecha</th>
+                <th id="fecha_creacion">Fecha_creacion</th>
+                <th id="fecha_modificacion">Fecha_modificacion</th>
+                <th id="deleted">deleted</th>
+                <th id="date_deleted">date_deleted</th>
+            </tr>
+        </table>
     </body>
     <script>
         function getData(){
             const nombre=$('#texto').val();
             const fecha1=$('#fecha_desde').val();
             const fecha2=$('#fecha_hasta').val();
-            const borrado=$('#boton').val();
-            
+            const borrado=$('#boton').is(':checked');
             return{
                 texto: nombre,
                 fecha_desde: fecha1,
                 fecha_hasta: fecha2,
-                boton: borrado.toString(),
+                boton: borrado,
             }
+        }
+        function showTable(data){
+            var tabla='<table>';
+
+            return $.each((data),function(key, i){
+                console.log(i);
+                tabla+='<tr><td>' + i.Nombre + '</td><td>' + i.Edad + '</td><td>' + i.Fecha + '</td><td>' + i.Fecha_Creacion + '</td><td>' + i.Fecha_Modificacion + '</td><td>' + i.deleted + '</td><td>' + i.date_deleted + '</td></tr></table>';
+                console.log(tabla);
+
+                // $('#tabla').append('<tr>' + key + '</tr>')
+                // $('#tabla').append('<td>' + i + '</td>')
+            });       
         }
         function callapi(action){
             return $.ajax({
@@ -53,6 +75,8 @@
             let callApi = callapi('search');
             callApi.done(function(data){
                 resultados=JSON.parse(data);
+                console.log(resultados);
+                console.log(showTable(resultados));
             })
         })
     </script>
