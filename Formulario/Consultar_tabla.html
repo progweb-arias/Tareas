@@ -22,9 +22,38 @@
                 </div>
                 <div class="form-group mx-sm-3">
                     <label for="boton" class="sr-only"></label>
-                    <input name="boton" type="checkbox" checked data-toggle="toggle" data-onstyle="primary" id="boton">
+                    <input type="hidden" name="boton" value="0"/>
+                    <input name="boton" type="checkbox" checked data-toggle="toggle" data-onstyle="primary" id="boton" value="0">
                 </div>
-                <button class="btn btn-primary" id="enviar">Enviar</button>
+                <button type="button" class="btn btn-primary" id="enviar">Enviar</button>
         </form>
     </body>
+    <script>
+        function getData(){
+            const nombre=$('#texto').val();
+            const fecha1=$('#fecha_desde').val();
+            const fecha2=$('#fecha_hasta').val();
+            const borrado=$('#boton').val();
+            
+            return{
+                texto: nombre,
+                fecha_desde: fecha1,
+                fecha_hasta: fecha2,
+                boton: borrado.toString(),
+            }
+        }
+        function callapi(action){
+            return $.ajax({
+                method: "POST",
+                url: "api.php?action="+action,
+                data: getData(),
+            })
+        }
+        $(document).on('click','#enviar',function(){
+            let callApi = callapi('search');
+            callApi.done(function(data){
+                resultados=JSON.parse(data);
+            })
+        })
+    </script>
 </html>
