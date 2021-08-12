@@ -1,4 +1,7 @@
 <?php
+
+use Doctrine\DBAL\Types\IntegerType;
+
 class Resources
 {
     /**
@@ -59,11 +62,11 @@ class Resources
      * @param string $nombre
      * @param string $fecha_desde
      * @param string $fecha_hasta
-     * @param int $borrado
+     * @param string $borrado
      * 
      * @return bool
      */
-    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, int $borrado)
+    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, string $borrado)
     {
         $array = array('Nombre' => $nombre, 'Fecha_creacion' => $fecha_desde, 'Fecha_creacion2' => $fecha_hasta, 'deleted' => $borrado);
         $query = "SELECT * FROM "  . _DB_PREFIX_ .  "formulario WHERE ";
@@ -84,13 +87,15 @@ class Resources
                     $where[] = "Fecha_creacion < '$valor'";
                 }
             } else {
-                $where[] = "$columna=$valor";
+                if ($valor == 'true') {
+                    $where[] = "$columna=1";
+                } else {
+                    $where[] = "$columna=0";
+                }
             }
             continue;
         }
-        return $query .= implode(' AND ', $where);
-        echo $query;
-        // echo $query;
+        $query .= implode(' AND ', $where);
         return Db::getInstance()->executeS($query);
     }
 }
