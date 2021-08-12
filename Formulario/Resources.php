@@ -65,19 +65,32 @@ class Resources
      */
     public function search(string $nombre, string $fecha_desde, string $fecha_hasta, int $borrado)
     {
-        // $comprobacion = ['rellenados' => '', 'blanco' => ''];
-        // $campos = array("texto" => $nombre, "fecha_desde" => $fecha_desde, "fecha_hasta" => $fecha_hasta, "borrados" => $borrado);
-        // foreach ($campos as $key => $i) {
-        //     if (empty(trim($key))) {
-        //         $comprobacion['rellenados'][] = $key;
-        //     } else {
-        //         $comprobacion['blanco'][] = $key;
-        //     }
-        // }
-        // if (count($comprobacion['rellenados']) == 4) {
-        return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE deleted=$borrado");
-
-        // }
-        // return $comprobacion;
+        $array = array('Nombre' => $nombre, 'Fecha_creacion' => $fecha_desde, 'Fecha_creacion2' => $fecha_hasta, 'deleted' => $borrado);
+        $query = "SELECT * FROM "  . _DB_PREFIX_ .  "formulario WHERE ";
+        $where = [];
+        foreach ($array as $columna => $valor) {
+            if ($columna == 'Nombre') {
+                if (!empty(trim($valor))) {
+                    $where[] =  "$columna= '$valor'";
+                }
+            } elseif ($columna == 'Fecha_creacion') {
+                if (!empty(trim($valor))) {
+                    $valor = date('Y-m-d', strtotime($fecha_desde));
+                    $where[] = "Fecha_creacion > '$valor'";
+                }
+            } elseif ($columna == 'Fecha_creacion2') {
+                if (!empty(trim($valor))) {
+                    $valor = date('Y-m-d', strtotime($fecha_hasta));
+                    $where[] = "Fecha_creacion < '$valor'";
+                }
+            } else {
+                $where[] = "$columna=$valor";
+            }
+            continue;
+        }
+        return $query .= implode(' AND ', $where);
+        echo $query;
+        // echo $query;
+        return Db::getInstance()->executeS($query);
     }
 }
