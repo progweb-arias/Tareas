@@ -1,12 +1,4 @@
 <html>
-    <head>
-        <title>Mostrar tabla</title>
-    </head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-    <body>
 
 <head>
     <title>Mostrar tabla</title>
@@ -21,18 +13,12 @@
 <body>
     <div class="container">
         <form class="form-inline" style="margin-top: 5px;" id="formulario">
-                <div class="form-group mx-sm-3">
-                    <label for="texto" class="sr-only"></label>
-                    <input name="texto" type="text" class="form-control" id="texto" autocomplete="off" placeholder="Nombre"> 
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="texto">Nombre</label>
                     <input name="texto" type="text" class="form-control" id="texto" autocomplete="off"
                         placeholder="Nombre">
                 </div>
-                <div class="form-group mx-sm-2">
-                    <label for="fecha_desde" class="sr-only"></label>
-                    <input name="fecha_desde" type="date" class="form-control" id="fecha_desde" autocomplete="off">
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
@@ -40,54 +26,25 @@
                     <input name="fecha_desde" type="date" class="form-control" id="fecha_desde" autocomplete="off"
                         placeholder="Fecha_desde" min="" max="">
                 </div>
-                <div class="form-group mx-sm-2">
-                    <label for="fecha_hasta" class="sr-only"></label>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="fecha_hasta">Fecha_hasta</label>
                     <input name="fecha_hasta" type="date" class="form-control" id="fecha_hasta" autocomplete="off">
                 </div>
-                <div class="form-group mx-sm-3">
-                    <label for="boton" class="sr-only"></label>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <label for="boton">Borrado?</label>
                     <input name="boton" type="checkbox" checked data-toggle="toggle" data-onstyle="primary" id="boton">
                 </div>
-                <button type="button" class="btn btn-primary" id="enviar">Enviar</button>
             </div>
             <div class="col-sm-1">
                 <button type="button" class="btn btn-primary" id="enviar" style="margin-top: 25px;">Enviar</button>
             </div>
         </form>
-        <table class="table" id="tabla">
-            <tr>
-                <th id="id">Id</th>
-                <th id="nombre">Nombre</th>
-                <th id="edad">Edad</th>
-                <th id="fecha">Fecha</th>
-                <th id="fecha_creacion">Fecha_creacion</th>
-                <th id="fecha_modificacion">Fecha_modificacion</th>
-                <th id="deleted">deleted</th>
-                <th id="date_deleted">date_deleted</th>
-            </tr>
         <table class="table" id="tabla" border=1>
         </table>
-    </body>
-    <script>
-        function getData(){
-            const nombre=$('#texto').val();
-            const fecha1=$('#fecha_desde').val();
-            const fecha2=$('#fecha_hasta').val();
-            const borrado=$('#boton').is(':checked');
-            return{
-                texto: nombre,
-                fecha_desde: fecha1,
-                fecha_hasta: fecha2,
-                boton: borrado,
-            }
     </div>
 </body>
 <script>
@@ -102,14 +59,8 @@
             fecha_hasta: fecha2,
             boton: borrado,
         }
-        function showTable(data){
-            var tabla='<table>';
     }
 
-            return $.each((data),function(key, i){
-                console.log(i);
-                tabla+='<tr><td>' + i.Nombre + '</td><td>' + i.Edad + '</td><td>' + i.Fecha + '</td><td>' + i.Fecha_Creacion + '</td><td>' + i.Fecha_Modificacion + '</td><td>' + i.deleted + '</td><td>' + i.date_deleted + '</td></tr></table>';
-                console.log(tabla);
     function showTable(data) {
         var tabla =
             '<tr><th>Nombre</th><th>Edad</th><th>Fecha</th><th>Fecha_creacion</th><th>Fecha_modificacion</th><th>deleted</th><th>date_deleted</th></tr>';
@@ -124,24 +75,6 @@
         return $('#tabla').empty().append(tabla);
     }
 
-                // $('#tabla').append('<tr>' + key + '</tr>')
-                // $('#tabla').append('<td>' + i + '</td>')
-            });       
-        }
-        function callapi(action){
-            return $.ajax({
-                method: "POST",
-                url: "api.php?action="+action,
-                data: getData(),
-            })
-        }
-        $(document).on('click','#enviar',function(){
-            let callApi = callapi('search');
-            callApi.done(function(data){
-                resultados=JSON.parse(data);
-                console.log(resultados);
-                console.log(showTable(resultados));
-            })
     function callapi(action) {
         return $.ajax({
             method: "POST",
@@ -161,7 +94,6 @@
             resultados = JSON.parse(data);
             showTable(resultados);
         })
-    </script>
     })
 </script>
 
