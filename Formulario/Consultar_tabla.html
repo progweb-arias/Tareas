@@ -142,7 +142,27 @@
                 console.log(resultados);
                 console.log(showTable(resultados));
             })
+    function callapi(action) {
+        return $.ajax({
+            method: "POST",
+            url: "api.php?action=" + action,
+            data: getData(),
+        })
+    }
+    $('#fecha_desde').change(function () {
+        $('#fecha_hasta').attr("min", $('#fecha_desde').val())
+    })
+    $('#fecha_hasta').change(function () {
+        $('#fecha_desde').attr("max", $('#fecha_hasta').val())
+    })
+    $(document).on('click', '#enviar', function () {
+        let callApi = callapi('search');
+        callApi.done(function (data) {
+            resultados = JSON.parse(data);
+            showTable(resultados);
         })
     </script>
+    })
+</script>
 
 </html>
