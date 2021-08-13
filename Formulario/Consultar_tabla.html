@@ -98,6 +98,19 @@
                 console.log(i);
                 tabla+='<tr><td>' + i.Nombre + '</td><td>' + i.Edad + '</td><td>' + i.Fecha + '</td><td>' + i.Fecha_Creacion + '</td><td>' + i.Fecha_Modificacion + '</td><td>' + i.deleted + '</td><td>' + i.date_deleted + '</td></tr></table>';
                 console.log(tabla);
+    function showTable(data) {
+        var tabla =
+            '<tr><th>Nombre</th><th>Edad</th><th>Fecha</th><th>Fecha_creacion</th><th>Fecha_modificacion</th><th>deleted</th><th>date_deleted</th></tr>';
+        var fin = '</table>';
+        $.each((data), function (key, i) {
+            console.log(i);
+            tabla += ('<tr><td>' + i.Nombre + '</td><td>' + i.Edad + '</td><td>' + i.Fecha + '</td><td>' + i
+                .Fecha_creacion + '</td><td>' + i.Fecha_Modificacion + '</td><td>' + i.deleted +
+                '</td><td>' + i.date_deleted + '</td></tr>');
+            console.log(tabla);
+        });
+        return $('#tabla').empty().append(tabla);
+    }
 
                 // $('#tabla').append('<tr>' + key + '</tr>')
                 // $('#tabla').append('<td>' + i + '</td>')
