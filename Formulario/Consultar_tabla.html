@@ -90,9 +90,21 @@
             }
     </div>
 </body>
+<script>
+    function getData() {
+        const nombre = $('#texto').val();
+        const fecha1 = $('#fecha_desde').val();
+        const fecha2 = $('#fecha_hasta').val();
+        const borrado = $('#boton').is(':checked');
+        return {
+            texto: nombre,
+            fecha_desde: fecha1,
+            fecha_hasta: fecha2,
+            boton: borrado,
         }
         function showTable(data){
             var tabla='<table>';
+    }
 
             return $.each((data),function(key, i){
                 console.log(i);
