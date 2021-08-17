@@ -69,12 +69,22 @@
             '<svg id="validate" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg><svg id="save_validate" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-upload" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="12" y1="11" x2="12" y2="17" /><polyline points="9 14 12 11 15 14" /></svg><svg id="delete" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>'
         $.each((data), function (key, i) {
             // console.log(i);
-            tabla += ('<tr style="text-align: center"><td id="nombre">' + i.Nombre + '</td><td id="edad">' + i
-                .Edad + '</td><td id="fecha">' + i
-                .Fecha + '</td><td id="fecha_creacion">' + i
-                .Fecha_creacion + '</td><td id="fecha_modificacion">' + i.Fecha_Modificacion +
-                '</td><td id="deleted">' + i.deleted +
-                '</td><td id="date_deleted">' + i.date_deleted + '</td><td>' + iconos + '</td></tr>');
+            tabla += (
+                '<tr style="text-align: center" class="validar"><td><input type="text" id="nombre_tabla"  class="form-control" autocomplete="off" value="' +
+                i.Nombre +
+                '"></td><td><input type="number" id="edad_tabla" class="form-control" autocomplete="off" value="' +
+                i.Edad +
+                '"></td><td><input type="date" id="fecha_tabla" class="form-control" autocomplete="off" value="' +
+                i.Fecha +
+                '" readonly></td><td id="fecha_creacion_tabla"><input type="datetime" class="form-control" value="' +
+                i.Fecha_creacion +
+                '" readonly></td><td id="fecha_modificacion_tabla"><input type="datetine" class="form-control" value="' +
+                i.Fecha_Modificacion +
+                '" readonly></td><td id="deleted_tabla"><input type="number" class="form-control" value="' +
+                i.deleted +
+                '"></td><td id="date_deleted_tabla"><input type="datetime" class="form-control" value="' + i
+                .date_deleted + '" readonly></td><td>' + iconos +
+                '</td></tr>');
             // console.log(tabla);
         });
         return $('#tabla').empty().append(tabla);
@@ -86,6 +96,26 @@
             url: "api.php?action=" + action,
             data: getData(),
         })
+    }
+
+    function callapi2(action) {
+        return $.ajax({
+            method: "POST",
+            url: "api.php?action=" + action,
+            data: dataTable(),
+        })
+    }
+
+    function dataTable() {
+        const nombre_tabla = $('#nombre_tabla').val();
+        const edad_tabla = $('#edad_tabla').val();
+        const fecha_tabla = $('#fecha_tabla').val();
+        // const fecha_creacion_tabla = $('#fecha_creacion_tabla').val();
+        return {
+            texto: nombre_tabla,
+            numero: edad_tabla,
+            fecha: fecha_tabla,
+        }
     }
     $('#fecha_desde').change(function () {
         $('#fecha_hasta').attr("min", $('#fecha_desde').val())
@@ -101,15 +131,20 @@
         })
     })
     $(document).on('click', '#validate', function () {
-        let callApi = callapi('validate');
-        callApi.done(function (data) {
-            resultados = JSON.parse(data);
-            console.log("Llego aqui");
-            console.log(resultados);
-            resultados.error.forEach(function (error) {
-                console.log(error);
-                console.log("entraaa");
+        let callApi2 = callapi2('validate');
+        callApi2.done(function (data) {
+            resultados2 = JSON.parse(data);
+            $('tr[class="validar"]').addClass('alert');
+            $('tr[class="validar alert alert-success"]').removeClass('alert-success');
+            $('tr[class="validar alert alert-danger"]').removeClass('alert-danger');
+            resultados2.error.forEach(function (error) {
+                console.log('Llego aqui');
+                $('tr[class="validar alert"]').addClass('alert-danger');
             });
+            resultados2.correcto.forEach(function (correcto) {
+                console.log("Llego aqui");
+                $('tr[class="validar alert"]').addClass('alert-success');
+            })
         })
     })
 </script>
