@@ -146,6 +146,22 @@
             })
         })
     })
+    $(document).on('click', '#save_validate', function () {
+        let callApi3 = callapi2.call(this, 'save_validate');
+        callApi3.done(function (data) {
+            let a = $(this).closest('tr');
+            resultados3 = JSON.parse(data);
+            console.log(resultados3);
+            a.removeClass('bg-danger').removeClass('bg-success');
+            if (resultados3 != true) {
+                console.log('entra?')
+                resultados3.error.forEach(function (error) {
+                    a.addClass('bg-danger');
+                })
+            }
+            a.addClass('bg-success');
+        })
+    })
 </script>
 
 </html>
