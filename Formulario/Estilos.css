@@ -1,3 +1,7 @@
+body {
+    background: linear-gradient(to top, white, #87CEEB)
+}
+
 .error {
     border-color: red;
     background-color: red;
@@ -5,4 +9,27 @@
 
 .icon:hover {
     cursor: pointer;
+}
+
+.container {
+    background-color: gray;
+    margin-top: 2rem;
+    border-radius: 2%;
+}
+
+.container legend {
+    text-align: center;
+    font-weight: bold;
+    padding: 1em;
+    color: rgb(52, 77, 223);
+}
+
+.table {
+    border: 1px black solid;
+}
+
+.table th {
+    background-color: rgb(52, 77, 223);
+    color: white;
+    font-weight: bold;
 }
