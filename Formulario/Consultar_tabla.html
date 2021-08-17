@@ -151,15 +151,25 @@
         callApi3.done(function (data) {
             let a = $(this).closest('tr');
             resultados3 = JSON.parse(data);
-            console.log(resultados3);
             a.removeClass('bg-danger').removeClass('bg-success');
             if (resultados3 != true) {
-                console.log('entra?')
                 resultados3.error.forEach(function (error) {
                     a.addClass('bg-danger');
                 })
             }
             a.addClass('bg-success');
+        })
+    })
+    $(document).on('click', '#delete', function () {
+        let callApi4 = callapi2.call(this, 'delete');
+        callApi4.done(function (data) {
+            let a = $(this).closest('tr');
+            resultados4 = JSON.parse(data);
+            a.removeClass('bg-danger');
+            if (resultados4 != true) {
+                a.addClass('bg-danger');
+            }
+            a.hide();
         })
     })
 </script>
