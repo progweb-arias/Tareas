@@ -136,8 +136,10 @@
             let a = $(this).closest('tr');
             resultados2 = JSON.parse(data);
             a.removeClass('bg-danger').removeClass('bg-success');
+            a.find('#save_validate').show();
             resultados2.error.forEach(function (error) {
                 a.addClass('bg-danger');
+                a.find('#save_validate').hide();
             });
             resultados2.correcto.forEach(function (correcto) {
                 a.addClass('bg-success');
