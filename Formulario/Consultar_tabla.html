@@ -70,11 +70,11 @@
         $.each((data), function (key, i) {
             // console.log(i);
             tabla += (
-                '<tr style="text-align: center" class="validar"><td><input type="text" id="nombre_tabla"  class="form-control" autocomplete="off" value="' +
+                '<tr style="text-align: center" class="validar"><td><input type="text"  class="nombre form-control" autocomplete="off" value="' +
                 i.Nombre +
-                '"></td><td><input type="number" id="edad_tabla" class="form-control" autocomplete="off" value="' +
+                '"></td><td><input type="number"  class="edad form-control" autocomplete="off" value="' +
                 i.Edad +
-                '"></td><td><input type="date" id="fecha_tabla" class="form-control" autocomplete="off" value="' +
+                '"></td><td><input type="date" class="fecha form-control" autocomplete="off" value="' +
                 i.Fecha +
                 '" readonly></td><td id="fecha_creacion_tabla"><input type="datetime" class="form-control" value="' +
                 i.Fecha_creacion +
@@ -102,15 +102,15 @@
         return $.ajax({
             method: "POST",
             url: "api.php?action=" + action,
-            data: dataTable(),
+            data: dataTable.call(this),
+            context: this,
         })
     }
 
     function dataTable() {
-        const nombre_tabla = $('#nombre_tabla').val();
-        const edad_tabla = $('#edad_tabla').val();
-        const fecha_tabla = $('#fecha_tabla').val();
-        // const fecha_creacion_tabla = $('#fecha_creacion_tabla').val();
+        const nombre_tabla = $(this).closest('tr').find('input[class="nombre form-control"]').val();
+        const edad_tabla = $(this).closest('tr').find('input[class="edad form-control"]').val();
+        const fecha_tabla = $(this).closest('tr').find('input[class="fecha form-control"]').val();
         return {
             texto: nombre_tabla,
             numero: edad_tabla,
@@ -131,19 +131,16 @@
         })
     })
     $(document).on('click', '#validate', function () {
-        let callApi2 = callapi2('validate');
+        let callApi2 = callapi2.call(this, 'validate');
         callApi2.done(function (data) {
+            let a = $(this).closest('tr');
             resultados2 = JSON.parse(data);
-            $('tr[class="validar"]').addClass('alert');
-            $('tr[class="validar alert alert-success"]').removeClass('alert-success');
-            $('tr[class="validar alert alert-danger"]').removeClass('alert-danger');
+            a.removeClass('bg-danger').removeClass('bg-success');
             resultados2.error.forEach(function (error) {
-                console.log('Llego aqui');
-                $('tr[class="validar alert"]').addClass('alert-danger');
+                a.addClass('bg-danger');
             });
             resultados2.correcto.forEach(function (correcto) {
-                console.log("Llego aqui");
-                $('tr[class="validar alert"]').addClass('alert-success');
+                a.addClass('bg-success');
             })
         })
     })
