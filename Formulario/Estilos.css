@@ -2,3 +2,7 @@
     border-color: red;
     background-color: red;
 }
+
+.icon:hover {
+    cursor: pointer;
+}
