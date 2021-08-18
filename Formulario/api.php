@@ -25,7 +25,7 @@ switch ($action) {
         // pasar el resultado de la funcion y comprobar que todos los parametros son correctos
         // if (count($validacion['correcto']) == 3) {
         // si lo son llamar la funcion de save_validate y almacenarla en $resultados
-        $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('boton', ''));
+        $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
         // } else {
         // si no almacenar los datos en $resultado
         // $resultados = $validacion;
@@ -40,6 +40,9 @@ switch ($action) {
         // Para el caso showTable
     case 'search':
         $resultados = $resources->search(Tools::getValue('texto', ''), Tools::getValue('fecha_desde', ''), Tools::getValue('fecha_hasta', ''), Tools::getValue('boton', ''));
+        break;
+    case 'update':
+        $resultados = $resources->update(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('fecha_desde', ''));
         break;
     default:
         // devuelve un string
