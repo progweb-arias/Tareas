@@ -98,4 +98,9 @@ class Resources
         $query .= implode(' AND ', $where);
         return Db::getInstance()->executeS($query);
     }
+    public function update(string $nombre, int $edad, string $fecha, string $fecha_desde)
+    {
+        // echo ("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= $fecha_desde");
+        return Db::getInstance()->execute("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= '$fecha_desde'");
+    }
 }
