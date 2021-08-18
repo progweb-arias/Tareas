@@ -30,7 +30,7 @@ class Resources
      * @param string $nombre
      * @param int $edad  
      * @param string $fecha
-     * 
+     * @param string $borrado
      * @return bool
      */
     public function save_validate(string $nombre, int $edad, string $fecha)
@@ -74,7 +74,7 @@ class Resources
         foreach ($array as $columna => $valor) {
             if ($columna == 'Nombre') {
                 if (!empty(trim($valor))) {
-                    $where[] =  "$columna= '$valor'";
+                    $where[] =  "$columna LIKE '$valor%'";
                 }
             } elseif ($columna == 'Fecha_creacion') {
                 if (!empty(trim($valor))) {

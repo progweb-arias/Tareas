@@ -77,13 +77,14 @@
                 i.Edad +
                 '"></td><td><input type="date" class="fecha form-control" autocomplete="off" value="' +
                 i.Fecha +
-                '" readonly></td><td id="fecha_creacion_tabla"><input type="datetime" class="form-control" value="' +
+                '"></td><td id="fecha_creacion_tabla"><input type="datetime" class="form-control" value="' +
                 i.Fecha_creacion +
                 '" readonly></td><td id="fecha_modificacion_tabla"><input type="datetine" class="form-control" value="' +
                 i.Fecha_Modificacion +
-                '" readonly></td><td id="deleted_tabla"><input type="number" class="form-control" value="' +
+                '" readonly></td><td id="deleted_tabla"><input type="number" class="deleted form-control" value="' +
                 i.deleted +
-                '"></td><td id="date_deleted_tabla"><input type="datetime" class="form-control" value="' + i
+                '"readonly></td><td id="date_deleted_tabla"><input type="datetime" class="form-control" value="' +
+                i
                 .date_deleted + '" readonly></td><td>' + iconos +
                 '</td></tr>');
             // console.log(tabla);
@@ -129,6 +130,10 @@
         callApi.done(function (data) {
             resultados = JSON.parse(data);
             showTable(resultados);
+            console.log(boton);
+            if ($('#boton').is(':checked')) {
+                $('svg[class="icon icon-tabler icon-tabler-trash"]').hide();
+            }
         })
     })
     $(document).on('click', '#validate', function () {

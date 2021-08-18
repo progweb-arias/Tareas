@@ -25,7 +25,7 @@ switch ($action) {
         // pasar el resultado de la funcion y comprobar que todos los parametros son correctos
         // if (count($validacion['correcto']) == 3) {
         // si lo son llamar la funcion de save_validate y almacenarla en $resultados
-        $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''));
+        $resultados = $resources->save_validate(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('boton', ''));
         // } else {
         // si no almacenar los datos en $resultado
         // $resultados = $validacion;
