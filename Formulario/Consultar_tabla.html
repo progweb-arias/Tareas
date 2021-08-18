@@ -68,6 +68,8 @@
             '<tr><th style="text-align: center">Nombre</th><th style="text-align: center">Edad</th><th style="text-align: center">Fecha</th><th style="text-align: center">Fecha_creacion</th><th style="text-align: center">Fecha_modificacion</th><th style="text-align: center">deleted</th><th style="text-align: center">date_deleted</th><th style="text-align: center">Accion</th></tr>';
         var iconos =
             '<svg id="validate" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00b341" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg><svg id="save_validate" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-upload" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="12" y1="11" x2="12" y2="17" /><polyline points="9 14 12 11 15 14" /></svg><svg id="delete" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>'
+        var fila =
+            '<tr><td><input type="text" class="form-control" id="texto_añaidr"></td><td><input type="number" class="form-control" id="numero_añadir"></td><td><input type="date" class="form-control" id="fecha_añadir"></td><td></td><td></td><td></td><td></td><td><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffec00" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><line x1="9" y1="12" x2="15" y2="12" /><line x1="12" y1="9" x2="12" y2="15" /></svg></td></tr>';
         $.each((data), function (key, i) {
             // console.log(i);
             tabla += (
@@ -89,7 +91,7 @@
                 '</td></tr>');
             // console.log(tabla);
         });
-        return $('#tabla').empty().append(tabla);
+        return $('#tabla').empty().append(tabla).append(fila);
     }
 
     function callapi(action) {
@@ -166,7 +168,7 @@
                 a.addClass('bg-danger');
             }
             a.addClass('bg-success');
-            alert('Datos almacenados en la tabla');
+            alert('Datos Modificados en la tabla');
         })
     })
     $(document).on('click', '#delete', function () {
