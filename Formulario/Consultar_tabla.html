@@ -77,7 +77,7 @@
                 i.Edad +
                 '"></td><td><input type="date" class="fecha form-control" autocomplete="off" value="' +
                 i.Fecha +
-                '"></td><td id="fecha_creacion_tabla"><input type="datetime" class="form-control" value="' +
+                '"></td><td id="fecha_creacion_tabla"><input type="datetime" class="fecha_creacion form-control" value="' +
                 i.Fecha_creacion +
                 '" readonly></td><td id="fecha_modificacion_tabla"><input type="datetine" class="form-control" value="' +
                 i.Fecha_Modificacion +
@@ -113,10 +113,13 @@
         const nombre_tabla = $(this).closest('tr').find('input[class="nombre form-control"]').val();
         const edad_tabla = $(this).closest('tr').find('input[class="edad form-control"]').val();
         const fecha_tabla = $(this).closest('tr').find('input[class="fecha form-control"]').val();
+        const fecha_creacion_tabla = $(this).closest('tr').find('input[class="fecha_creacion form-control"]').val();
+        // const deleted_tabla = $(this).closest('tr').find('input[class="deleted form-control"]').val();
         return {
             texto: nombre_tabla,
             numero: edad_tabla,
             fecha: fecha_tabla,
+            fecha_desde: fecha_creacion_tabla,
         }
     }
     $('#fecha_desde').change(function () {
@@ -153,15 +156,14 @@
         })
     })
     $(document).on('click', '#save_validate', function () {
-        let callApi3 = callapi2.call(this, 'save_validate');
+        let callApi3 = callapi2.call(this, 'update');
         callApi3.done(function (data) {
             let a = $(this).closest('tr');
             resultados3 = JSON.parse(data);
+            console.log(resultados3);
             a.removeClass('bg-danger').removeClass('bg-success');
             if (resultados3 != true) {
-                resultados3.error.forEach(function (error) {
-                    a.addClass('bg-danger');
-                })
+                a.addClass('bg-danger');
             }
             a.addClass('bg-success');
             alert('Datos almacenados en la tabla');
