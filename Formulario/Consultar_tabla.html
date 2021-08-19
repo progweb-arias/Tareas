@@ -209,6 +209,9 @@
         callApi6.done(function (data) {
             resultados6 = JSON.parse(data);
             showTable(resultados6);
+            if ($('#boton').is(':checked')) {
+                $('svg[class="icon icon-tabler icon-tabler-trash"]').hide();
+            }
         })
     })
 </script>
