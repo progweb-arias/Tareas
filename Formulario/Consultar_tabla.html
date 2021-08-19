@@ -72,7 +72,7 @@
         var fila =
             '<tr><td><input type="text" class="nombre form-control" id="texto_añadir"></td><td><input type="number" class="edad form-control" id="numero_añadir"></td><td><input type="date" class="fecha form-control" id="fecha_añadir"></td><td></td><td></td><td></td><td></td><td><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" id="save_validate" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffec00" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><line x1="9" y1="12" x2="15" y2="12" /><line x1="12" y1="9" x2="12" y2="15" /></svg></td></tr></tbody>';
         var paginacion =
-            '<nav aria-label="Page navigation example"><ul class="pagination"><li id="lista" class="page-item"><a class="page-link" href="#">Previous</a></li><li class="page-item" id="lista1"><a class="page-link" id="uno" value="1" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">3</a></li><li class="page-item"><a class="page-link" href="#">Next</a></li></ul></nav>'
+            '<nav aria-label="Page navigation example"><ul class="pagination"><li id="lista" class="page-item"><input type="button" id="uno" class="page-link" value="1"></li><li class="page-item" id="lista1"><input type="button" class="page-link" id="dos" value="2"></li><li class="page-item"><input type="button" class="page-link" id="tres" value="3"></li><li class="page-item"><input type="button" class="page-link" id="cuatro" value="4"></li></ul></nav>'
         $.each((data), function (key, i) {
             // console.log(i);
             tabla += (
@@ -114,13 +114,28 @@
         })
     }
 
-    // function callapi3(action) {
-    //     return $.ajax({
-    //         method: "POST",
-    //         url: "api.php?action=" + action,
-    //         data:
-    //     })
-    // }
+    function callapi3(pagina) {
+        return $.ajax({
+            method: "POST",
+            url: "api.php?action=" + pagina,
+            data: dataButton(),
+        })
+    }
+
+    function dataButton() {
+        const boton1 = $('#uno').val();
+        const boton2 = $('#dos').val();
+        const boton3 = $('#tres').val();
+        const boton4 = $('#cuatro').val();
+        // const deleted_tabla = $(this).closest('tr').find('input[class="deleted form-control"]').val();
+        return {
+            boton1: boton1,
+            boton2: boton2,
+            boton3: boton3,
+            boton4: boton4,
+        }
+    }
+
     function dataTable() {
         const nombre_tabla = $(this).closest('tr').find('input[class="nombre form-control"]').val();
         const edad_tabla = $(this).closest('tr').find('input[class="edad form-control"]').val();
@@ -206,9 +221,33 @@
             a.addClass('bg-success');
         })
     })
-    $(document).on('click', '.page-link', function () {
-        console.log("entra");
-        console.log$('#lista').val();
+    $(document).on('click', '#uno', function () {
+        let callApi6 = callapi3('boton1');
+        callApi6.done(function (data) {
+            resultados6 = JSON.parse(data);
+            showTable(resultados);
+        })
+    })
+    $(document).on('click', '#dos', function () {
+        let callApi6 = callapi3('boton2');
+        callApi6.done(function (data) {
+            resultados7 = JSON.parse(data);
+            showTable(resultados7);
+        })
+    })
+    $(document).on('click', '#tres', function () {
+        let callApi6 = callapi3('boton3');
+        callApi6.done(function (data) {
+            resultados8 = JSON.parse(data);
+            showTable(resultados8);
+        })
+    })
+    $(document).on('click', '#cuatro', function () {
+        let callApi6 = callapi3('boton4');
+        callApi6.done(function (data) {
+            resultados9 = JSON.parse(data);
+            showTable(resultados9);
+        })
     })
 </script>
 
