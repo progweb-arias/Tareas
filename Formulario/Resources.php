@@ -108,6 +108,10 @@ class Resources
         if ($boton == 'cuatro') {
             $limit = ' LIMIT 15,5';
         }
+        if ($boton == 'cinco') {
+            $limit = ' LIMIT 20,5';
+        }
+
         $query .= implode(' AND ', $where);
         $query .= $limit;
         return Db::getInstance()->executeS($query);
@@ -121,6 +125,10 @@ class Resources
             }
         }
         return Db::getInstance()->execute("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= '$fecha_desde'");
-        // echo ("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= $fecha_desde");
     }
+    //     public function contador(string $nombre)
+    //     {
+    //         // echo "SELECT COUNT(*) FROM " . _DB_PREFIX_ . "formulario";
+    //         return Db::getInstance()->executeS("SELECT COUNT('$nombre') FROM " . _DB_PREFIX_ . "formulario");
+    //     }
 }
