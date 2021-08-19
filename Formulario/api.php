@@ -44,6 +44,18 @@ switch ($action) {
     case 'update':
         $resultados = $resources->update(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('fecha_desde', ''));
         break;
+    case 'boton1':
+        $resultados = $resources->boton1((int)Tools::getValue('boton1', 0));
+        break;
+    case 'boton2':
+        $resultados = $resources->boton2((int)Tools::getValue('boton2', 0));
+        break;
+    case 'boton3':
+        $resultados = $resources->boton3((int)Tools::getValue('boton3', 0));
+        break;
+    case 'boton4':
+        $resultados = $resources->boton4((int)Tools::getValue('boton4', 0));
+        break;
     default:
         // devuelve un string
         $resultados = 'a';
