@@ -71,6 +71,7 @@ class Resources
         $array = array('Nombre' => $nombre, 'Fecha_creacion' => $fecha_desde, 'Fecha_creacion2' => $fecha_hasta, 'deleted' => $borrado);
         $query = "SELECT * FROM "  . _DB_PREFIX_ .  "formulario WHERE ";
         $where = [];
+        $limite = ' LIMIT 1,5';
         foreach ($array as $columna => $valor) {
             if ($columna == 'Nombre') {
                 if (!empty(trim($valor))) {
@@ -96,7 +97,7 @@ class Resources
             continue;
         }
         $query .= implode(' AND ', $where);
-        return Db::getInstance()->executeS($query);
+        return Db::getInstance()->executeS($query . $limite);
     }
     public function update(string $nombre, int $edad, string $fecha, string $fecha_desde)
     {
@@ -108,5 +109,29 @@ class Resources
         }
         return Db::getInstance()->execute("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= '$fecha_desde'");
         // echo ("UPDATE " . _DB_PREFIX_ . "formulario SET Nombre='$nombre', Edad=$edad, Fecha='$fecha' WHERE Fecha_creacion= $fecha_desde");
+    }
+    public function boton1(int $boton1)
+    {
+        if ($boton1) {
+            return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario LIMIT 1,5");
+        }
+    }
+    public function boton2(int $boton2)
+    {
+        if ($boton2) {
+            return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario LIMIT 5,5");
+        }
+    }
+    public function boton3(int $boton3)
+    {
+        if ($boton3) {
+            return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario LIMIT 10,5");
+        }
+    }
+    public function boton4(int $boton4)
+    {
+        if ($boton4) {
+            return Db::getInstance()->executeS("SELECT * FROM " . _DB_PREFIX_ . "formulario LIMIT 15,5");
+        }
     }
 }
