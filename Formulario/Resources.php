@@ -1,21 +1,20 @@
 <?php
 
-use Doctrine\DBAL\Types\IntegerType;
-
+// TODO esto que es y para que lo usas?
 class Resources
 {
     /**
      * Funcion validar campos
-     * @param string $nombre 
-     * @param int $edad 
+     * @param string $texto 
+     * @param int $numerp
      * @param string $fecha
      * 
      * @return array      
      */
-    public function validate(string $nombre, int $edad, string $fecha)
+    public function validate(string $texto, int $numero, string $fecha)
     {
         $resultados = ["correcto" => [], "error" => []];
-        $cadena = array("texto" => $nombre, "numero" => $edad, "fecha" => $fecha);
+        $cadena = array("texto" => $texto, "numero" => $numero, "fecha" => $fecha);
         foreach ($cadena as $key => $i) {
             if (empty(trim($cadena[$key]))) {
                 $resultados["error"][] = $key;
@@ -38,7 +37,7 @@ class Resources
         $variable = $this->validate($nombre, $edad, $fecha);
         if (count($variable['correcto']) == 3) {
             $fecha = date('Y-m-d', strtotime($fecha));
-            return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion) VALUES('$nombre',$edad,'$fecha',NOW(),NOW())");
+            return Db::getInstance()->execute("INSERT INTO " . _DB_PREFIX_ . "formulario(Nombre,Edad,Fecha,Fecha_creacion,Fecha_Modificacion,deleted,date_deleted) VALUES('$nombre',$edad,'$fecha',NOW(),NOW(), 0, NULL)");
         }
         return $variable;
     }
@@ -63,15 +62,20 @@ class Resources
      * @param string $fecha_desde
      * @param string $fecha_hasta
      * @param string $borrado
+     * @param string $boton1
      * 
-     * @return bool
+     * @return array
      */
-    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, string $borrado, string $boton)
+    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, string $borrado, string $boton1)
     {
         $array = array('Nombre' => $nombre, 'Fecha_creacion' => $fecha_desde, 'Fecha_creacion2' => $fecha_hasta, 'deleted' => $borrado);
         $query = "SELECT * FROM "  . _DB_PREFIX_ .  "formulario WHERE ";
+        $query2 = "SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE ";
         $where = [];
-        $limit = ' LIMIT 1,5';
+        $rows = 5;
+        $page = intval($boton1);
+        $limit = ($page * $rows);
+        $offset = $rows;
         foreach ($array as $columna => $valor) {
             if ($columna == 'Nombre') {
                 if (!empty(trim($valor))) {
@@ -96,26 +100,25 @@ class Resources
             }
             continue;
         }
-        if ($boton == 'uno') {
-            $limit = ' LIMIT 1,5';
-        }
-        if ($boton == 'dos') {
-            $limit = ' LIMIT 5,5';
-        }
-        if ($boton == 'tres') {
-            $limit = ' LIMIT 10,5';
-        }
-        if ($boton == 'cuatro') {
-            $limit = ' LIMIT 15,5';
-        }
-        if ($boton == 'cinco') {
-            $limit = ' LIMIT 20,5';
-        }
-
+        $query2 .= implode(' AND ', $where);
+        $numero_registros = count(Db::getInstance()->executeS($query2));
+        // echo $query2;
         $query .= implode(' AND ', $where);
-        $query .= $limit;
-        return Db::getInstance()->executeS($query);
+        $query .= ' LIMIT ' . $limit . ',' . $offset;
+        // echo $query;
+        return ["datos" => Db::getInstance()->executeS($query), "contador" => $numero_registros];
     }
+
+    // TODO no tiene explicacion
+    /**
+     * Funcion actualizar campos
+     * @param string $nombre
+     * @param int $edad
+     * @param string $fecha
+     * @param string $fecha_desde
+     * 
+     * @return bool
+     */
     public function update(string $nombre, int $edad, string $fecha, string $fecha_desde)
     {
         $array = array("Nombre" => $nombre, "Edad" => $edad, "Fecha" => $fecha);
