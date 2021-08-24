@@ -39,7 +39,7 @@ switch ($action) {
         // en caso de que no entren en ningun caso por no establecer bien el action
         // Para el caso showTable
     case 'search':
-        $resultados = $resources->search(Tools::getValue('texto', ''), Tools::getValue('fecha_desde', ''), Tools::getValue('fecha_hasta', ''), Tools::getValue('boton', ''), Tools::getValue('boton1', ''));
+        $resultados = $resources->search(Tools::getValue('texto', ''), Tools::getValue('fecha_desde', ''), Tools::getValue('fecha_hasta', ''), Tools::getValue('boton', ''), Tools::getValue('fecha_eleccion', ''), Tools::getValue('boton1', ''));
         break;
     case 'update':
         $resultados = $resources->update(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('fecha_desde', ''));
