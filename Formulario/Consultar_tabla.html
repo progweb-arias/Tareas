@@ -16,24 +16,34 @@
     <div class="container">
         <form class="form-inline" style="margin-top: 5px;" id="formulario">
             <legend id="titulo_formulario">Formulario/Tabla</legend>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="flex-column form-group">
                     <label for="texto">Nombre: </label>
                     <input name="texto" type="text" class="form-control" id="texto" autocomplete="off"
                         placeholder="Nombre">
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="flex-column form-group">
                     <label for="fecha_desde">Fecha_desde: </label>
                     <input name="fecha_desde" type="date" class="form-control" id="fecha_desde" autocomplete="off"
                         placeholder="Fecha_desde" min="" max="">
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="flex-column form-group">
                     <label for="fecha_hasta">Fecha_hasta: </label>
                     <input name="fecha_hasta" type="date" class="form-control" id="fecha_hasta" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="flex-column form-group">
+                    <label for="fecha_hasta">Fecha a filtrar </label>
+                    <select class="form-control" id="fecha_eleccion">
+                        <option>Fecha</option>
+                        <option>Fecha_creacion</option>
+                        <option>Fecha_modificacion</option>
+                    </select>
                 </div>
             </div>
             <div class="col-sm-2">
@@ -43,7 +53,7 @@
                 </div>
             </div>
             <div class="col-sm-1">
-                <button type="button" class="btn btn-primary" id="enviar" style="margin-top: 25px;">Enviar</button>
+                <button type="button" class="btn btn-primary" id="enviar" style="margin-top: 25px;">Buscar</button>
             </div>
         </form>
         <table class="table" id="tabla">
@@ -63,12 +73,14 @@
         const fecha1 = $('#fecha_desde').val();
         const fecha2 = $('#fecha_hasta').val();
         const borrado = $('#boton').is(':checked');
+        const seleccion_fecha = $('#fecha_eleccion').val();
         const boton = $(this).attr('id');
         return {
             texto: nombre,
             fecha_desde: fecha1,
             fecha_hasta: fecha2,
             boton: borrado,
+            fecha_eleccion: seleccion_fecha,
             boton1: boton,
         }
     }
@@ -149,6 +161,7 @@
         let callApi = callapi('search');
         callApi.done(function (data) {
             resultados = JSON.parse(data);
+            // console.log($('#fecha_eleccion').val());
             let paginas = Math.ceil(resultados.contador / 5);
             let botones = " ";
             for (i = 0; i < paginas; i++) {
@@ -208,7 +221,7 @@
         callApi4.done(function (data) {
             let a = $(this).closest('tr');
             resultados4 = JSON.parse(data);
-            console.log(resultados4);
+            // console.log(resultados4);
             a.removeClass('alert alert-danger');
             if (resultados4 != true) {
                 a.addClass('alert alert-danger');
@@ -220,7 +233,7 @@
             let callApi8 = callapi.call(this, 'search');
             callApi8.done(function (data) {
                 resultados8 = JSON.parse(data);
-                console.log(resultados8);
+                // console.log(resultados8);
                 let paginas = Math.ceil(resultados8.contador / 5);
                 let botones = " ";
                 for (i = 0; i < paginas; i++) {
@@ -230,7 +243,7 @@
                         ' value=' + (parseInt(i) + parseInt(1)) + '></li>'
                 }
                 let fin = parseInt(i) - parseInt(1);
-                console.log(fin);
+                // console.log(fin);
                 $('#botones').empty().append(botones);
                 if (((resultados8.contador) % 5) == 0) {
                     $('input[id="' + fin + '"]').trigger("click");
@@ -259,7 +272,7 @@
                 let callapi8 = callapi2('search');
                 callapi8.done(function (data) {
                     resultados10 = JSON.parse(data);
-                    console.log(resultados10.contador);
+                    // console.log(resultados10.contador);
                     let paginas = Math.ceil(resultados10.contador / 5);
                     let botones = " ";
                     for (i = 0; i < paginas; i++) {
