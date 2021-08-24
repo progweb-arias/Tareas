@@ -2,6 +2,11 @@ body {
     background: linear-gradient(to top, white, #87CEEB)
 }
 
+div {
+    flex-direction: column;
+    max-width: 3000px;
+}
+
 .error {
     border-color: red;
     background-color: red;
@@ -12,10 +17,18 @@ body {
 }
 
 .container {
-    background-color: gray;
+    background-color: #E7E6E6;
     margin-top: 2rem;
     border-radius: 2%;
     max-width: 1280px !important;
+}
+
+form {
+    justify-content: center;
+}
+
+form label {
+    font-weight: bold;
 }
 
 .container legend {
@@ -25,12 +38,16 @@ body {
     color: rgb(52, 77, 223);
 }
 
-.table {
+/* .table {
     border: 1px black solid;
-}
+} */
 
 .table th {
     background-color: rgb(52, 77, 223);
     color: white;
     font-weight: bold;
+}
+
+.table td input {
+    border-color: black;
 }
