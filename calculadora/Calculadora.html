@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="Style.css" rel="stylesheet">
+    <title>Calculadora</title>
+</head>
+
+<body>
+    <!-- <form> -->
+
+    <div class="result">
+        <div id="digito"></div>
+        <div id="operador"></div>
+        <div id="digitob"></div>
+        <div id="resultado"></div>
+    </div>
+    <table class="tabla" border=3>
+        <tr class="filas">
+            <td><input type="button" class="boton" id="nueve" value="9"></td>
+            <td><input type="button" class="boton" id="ocho" value="8"></td>
+            <td><input type="button" class="boton" id="siete" value="7"></td>
+            <td><input type="button" class="operador" id="mas" value="+"></td>
+        </tr>
+        <tr class="filas">
+            <td><input type="button" class="boton" id="seis" value="6"></td>
+            <td><input type="button" class="boton" id="cinco" value="5"></td>
+            <td><input type="button" class="boton" id="cuatro" value="4"></td>
+            <td><input type="button" class="operador" id="menos" value="-"></td>
+        </tr>
+        <tr class="filas">
+            <td><input type="button" class="boton" id="tres" value="3"></td>
+            <td><input type="button" class="boton" id="dos" value="2"></td>
+            <td><input type="button" class="boton" id="uno" value="1"></td>
+            <td><input type="button" class="solucion" id="igual" value="="></td>
+        </tr>
+    </table>
+    <!-- </form> -->
+
+</body>
+<script>
+    $(document).on('click', '.boton', function () {
+        // if (!$('#resultado').html()) {
+        if ($('#operador').html() == "") {
+            let id = $(this).val();
+            // console.log(id);
+            // console.log('entra');
+            $('#digito').append(id);
+            // }
+            // let primervalor = parseInt($('#result').attr('placeholder').split('+', 1));
+            // let valoresSuma = $('#result').attr('placeholder').split('+');
+            // let valoresResta = $('#result').attr('placeholder').split('-');
+            // primervalorSuma = valoresSuma[0]
+            // segundovalorSuma = valoresSuma[1];
+            // primervalorResta = valoresResta[0]
+            // segundovalorResta = valoresResta[1];
+        }
+        // } else {
+        //     $('#resultado').empty().append($('#resultado').html());
+        // }
+    })
+    $(document).on('click', '.operador', function () {
+        if (!$('#resultado').html()) {
+            let id = $(this).val();
+            // console.log(id);
+            $('#operador').append(id)
+        } else {
+            let id = $(this).val();
+            $('#operador').empty().append(id);
+            $('#digito').empty().append($('#resultado').html());
+            $('#resultado').empty()
+        }
+    })
+    $(document).on('click', '.boton', function () {
+        if (!$('#digitob').html()) {
+            if ($('#operador').html()) {
+                let id = $(this).val();
+                $('#digitob').append(id);
+            }
+        } else {
+            let id = $(this).val();
+            $('#digitob').empty().append(id);
+        }
+    })
+    $(document).on('click', '.solucion', function () {
+        let parametro1 = parseInt($('#digito').html())
+        let parametro2 = parseInt($('#digitob').html())
+        let resultado = 0
+        // console.log($('#operador').html());
+        if ($('#operador').html() == '+') {
+            resultado = parametro1 + parametro2;
+        }
+        if ($('#operador').html() == '-') {
+            resultado = parametro1 - parametro2;
+        }
+        $('#resultado').append(resultado);
+    })
+    // console.log(id);
+    // console.log('entra');
+    // $(document).on('click', '.solucion', function () {
+    //     for(i=0;i<($('#result').attr('placeholder').length);i++){
+    //         let caracter=$('#result').attr('placeholder').charAt(i);
+    //         if (caracter=='+'){
+    //             let operacion = parseInt(primervalorSuma) + parseInt(segundovalorSuma);
+    //         }
+    //         else{
+    //             let operacion = parseInt(primervalorSuma) - parseInt(segundovalorSuma);
+
+    //         }
+    //     }
+    //     $('#result').attr('placeholder', operacion);
+    //     // let operacion2 = parseInt(primervalorSuma) - parseInt(segundovalorSuma);
+    // })
+</script>
+
+</html>
