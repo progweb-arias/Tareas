@@ -6,7 +6,7 @@ class Resources
     /**
      * Funcion validar campos
      * @param string $texto 
-     * @param int $numerp
+     * @param int $numero
      * @param string $fecha
      * 
      * @return array      
@@ -61,21 +61,24 @@ class Resources
      * @param string $nombre
      * @param string $fecha_desde
      * @param string $fecha_hasta
-     * @param string $borrado
-     * @param string $boton1
+     * @param string $borrado es la opcion de on y off de si esta borrado
+     * @param string $fecha_eleccion
+     * @param string $boton1 que son los botones de las paginas
      * 
      * @return array
      */
-    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, string $borrado, string $boton1)
+    public function search(string $nombre, string $fecha_desde, string $fecha_hasta, string $borrado, string $fecha_eleccion, string $boton1)
     {
         $array = array('Nombre' => $nombre, 'Fecha_creacion' => $fecha_desde, 'Fecha_creacion2' => $fecha_hasta, 'deleted' => $borrado);
         $query = "SELECT * FROM "  . _DB_PREFIX_ .  "formulario WHERE ";
         $query2 = "SELECT * FROM " . _DB_PREFIX_ . "formulario WHERE ";
         $where = [];
         $rows = 5;
+        // echo $fecha_eleccion;
         $page = intval($boton1);
         $limit = ($page * $rows);
         $offset = $rows;
+        // echo $fecha_eleccion;
         foreach ($array as $columna => $valor) {
             if ($columna == 'Nombre') {
                 if (!empty(trim($valor))) {
@@ -84,12 +87,12 @@ class Resources
             } elseif ($columna == 'Fecha_creacion') {
                 if (!empty(trim($valor))) {
                     $valor = date('Y-m-d', strtotime($fecha_desde));
-                    $where[] = "Fecha_creacion > '$valor'";
+                    $where[] = "$fecha_eleccion > '$valor'";
                 }
             } elseif ($columna == 'Fecha_creacion2') {
                 if (!empty(trim($valor))) {
                     $valor = date('Y-m-d', strtotime($fecha_hasta));
-                    $where[] = "Fecha_creacion < '$valor'";
+                    $where[] = "$fecha_eleccion < '$valor'";
                 }
             } else {
                 if ($valor == 'true') {
