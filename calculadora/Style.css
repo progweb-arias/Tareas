@@ -1,3 +1,24 @@
 .tabla {
-    height: 50px;
+    height: 350px;
+    width: 300px
+}
+
+
+.tabla td {
+    text-align: center;
+}
+
+.result {
+    display: flex;
+}
+
+.tabla .result input::placeholder {
+    font-style: italic;
+    color: black;
+    font-size: 50px;
+}
+
+.tabla .filas input {
+    width: 75%;
+    height: 75%;
 }
