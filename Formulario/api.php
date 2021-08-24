@@ -44,9 +44,13 @@ switch ($action) {
     case 'update':
         $resultados = $resources->update(Tools::getValue('texto', ''), (int)Tools::getValue('numero', 0), Tools::getValue('fecha', ''), Tools::getValue('fecha_desde', ''));
         break;
+        // case 'contador':
+        //     $resultados = $resources->contador(Tools::getValue('texto', ''));
+        //     break;
     default:
         // devuelve un string
-        $resultados = 'a';
+        // TODO puedes mejorarlo poniendo un mensaje direcctamete
+        $resultados = 'No hay action';
         break;
 }
 // Envia mediante un formato json $resultados
