@@ -11,6 +11,7 @@ body {
     width: 300px;
     margin: 0 auto;
     margin-top: 20px;
+    table-layout: fixed;
 }
 
 .tabla td {
