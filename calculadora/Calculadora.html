@@ -7,6 +7,8 @@
     <link href="Style.css" rel="stylesheet">
     <title>Calculadora</title>
 </head>
+<!-- TODO Simplificar con funciones el script -->
+<!-- TODO controlar las extensiones de los div -->
 
 <body>
     <!-- <form> -->
@@ -21,6 +23,12 @@
                     <div id="resultado"></div>
                 </div>
             </td>
+        </tr>
+        <tr class="filas">
+            <td><input type="button" class="borrador_parcial" id="parcial" value="CE"></td>
+            <td><input type="button" class="borrador_completo" id="completo" value="C"></td>
+            <td><input type="button" class="borrar" id="borrando" value="DEL"></td>
+            <td><input type="button" class="operador" id="division" value="/"></td>
         </tr>
         <tr class="filas">
             <td><input type="button" class="boton" id="nueve" value="9"></td>
@@ -38,6 +46,12 @@
             <td><input type="button" class="boton" id="tres" value="3"></td>
             <td><input type="button" class="boton" id="dos" value="2"></td>
             <td><input type="button" class="boton" id="uno" value="1"></td>
+            <td><input type="button" class="operador" id="multiplicador" value="x"></td>
+        </tr>
+        <tr class="filas">
+            <td><input type="button" class="signo" id="signo" value="+/-"></td>
+            <td><input type="button" class="boton" id="cero" value="0"></td>
+            <td><input type="button" class="boton" id="coma" value="."></td>
             <td><input type="button" class="solucion" id="igual" value="="></td>
         </tr>
     </table>
@@ -46,8 +60,8 @@
 </body>
 <script>
     function operacion(data) {
-        let parametro1 = parseInt($('#digito').html())
-        let parametro2 = parseInt($('#digitob').html())
+        let parametro1 = parseFloat($('#digito').html())
+        let parametro2 = parseFloat($('#digitob').html())
         let resultado = 0;
         switch (data) {
             case '+':
@@ -56,16 +70,30 @@
             case '-':
                 resultado = parametro1 - parametro2;
                 break;
+            case 'x':
+                resultado = parametro1 * parametro2;
+                break;
+            case '/':
+                if (parametro2 != 0) {
+                    resultado = parametro1 / parametro2;
+                } else {
+                    return resultado = "No se puede dividir entre 0";
+                }
+                break;
             default:
                 resultado = 0;
         }
-        return resultado;
+        return resultado.toFixed(2);
     }
     $(document).on('click', '.boton', function () {
         if (!$('#resultado').html()) {
             if ($('#operador').html() == "") {
                 let id = $(this).val();
-                $('#digito').append(id);
+                if ($('#digito').html() != "0") {
+                    $('#digito').append(id);
+                    return;
+                }
+                $('#digito').empty().append(id);
             }
         } else {
             $('#resultado').empty();
@@ -110,6 +138,88 @@
         if (($('#digito').html()) && (!$('#digitob').html())) {
             let parametro1 = parseInt($('#digito').html())
             $('#resultado').append(parametro1);
+        }
+    })
+    $(document).on('click', '#signo', function () {
+        if ($('#digito').html() && !$('#operador').html() && !$('#digitob').html() && !$('#resultado').html()) {
+            let resultado = (parseInt($('#digito').html())) * (-1);
+            $('#digito').empty().append(resultado);
+        } else if ($('#digito').html() && $('#operador').html() && !$('#digitob').html() && !$('#resultado')
+            .html()) {
+            let resultado = (parseInt($('#digito').html())) * (-1);
+            $('#digitob').empty().append(resultado);
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && !$('#resultado')
+            .html()) {
+            let resultado = (parseInt($('#digitob').html())) * (-1);
+            $('#digitob').empty().append(resultado);
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && $('#resultado')
+            .html()) {
+            let resultado = (parseInt($('#resultado').html())) * (-1);
+            $('#resultado').empty().append(resultado);
+        }
+    })
+    $(document).on('click', '#parcial', function () {
+        if ($('#digito').html() && !$('#operador').html() && !$('#digitob').html() && !$('#resultado').html()) {
+            $('#digito').empty();
+        } else if ($('#digito').html() && $('#operador').html() && !$('#digitob').html() && !$('#resultado')
+            .html()) {
+            $('#operador').empty();
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && !$('#resultado')
+            .html()) {
+            $('#digitob').empty();
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && $('#resultado')
+            .html()) {
+            $('#resultado').empty();
+        }
+    })
+    $(document).on('click', '#completo', function () {
+        if ($('#digito').html() && !$('#operador').html() && !$('#digitob').html() && !$('#resultado').html()) {
+            $('#digito').empty();
+        } else if ($('#digito').html() && $('#operador').html() && !$('#digitob').html() && !$('#resultado')
+            .html()) {
+            $('#operador').empty();
+            $('#digito').empty();
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && !$('#resultado')
+            .html()) {
+            $('#digitob').empty();
+            $('#operador').empty();
+            $('#digito').empty();
+        } else if ($('#digito').html() && $('#operador').html() && $('#digitob').html() && $('#resultado')
+            .html()) {
+            $('#digitob').empty();
+            $('#resultado').empty();
+            $('#operador').empty();
+            $('#digito').empty();
+        }
+    })
+    $(document).on('click', '#borrando', function () {
+        if ($('#digito').html() && !$('#operador').html() && !$('#digitob').html() && !$('#resultado').html()) {
+            let cadena = $('#digito').html();
+            let contador = ($('#digito').html()).length;
+            console.log(contador);
+            let string = "";
+            for (let i = 0; i < contador - 1; i++) {
+                string += cadena.charAt(i);
+            }
+            console.log(string);
+            $('#digito').empty().append(string);
+            if (!$('#digito').html()) {
+                $('#digito').append(0);
+            }
+        } else if ($('#digito').html() && $('#digitob').html() && !$('#resultado')
+            .html()) {
+            let cadena = $('#digitob').html();
+            let contador = ($('#digitob').html()).length;
+            console.log(contador);
+            let string = "";
+            for (let i = 0; i < contador - 1; i++) {
+                string += cadena.charAt(i);
+            }
+            console.log(string);
+            $('#digitob').empty().append(string);
+            if (!$('#digito').html()) {
+                $('#digito').append(0);
+            }
         }
     })
 </script>
