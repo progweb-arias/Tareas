@@ -10,14 +10,18 @@
 
 <body>
     <!-- <form> -->
-
-    <div class="result">
-        <div id="digito"></div>
-        <div id="operador"></div>
-        <div id="digitob"></div>
-        <div id="resultado"></div>
-    </div>
+    <!-- <div class="contenedor"> -->
     <table class="tabla" border=3>
+        <tr>
+            <td colspan="4" class="mostrar">
+                <div class="result">
+                    <div id="digito"></div>
+                    <div id="operador"></div>
+                    <div id="digitob"></div>
+                    <div id="resultado"></div>
+                </div>
+            </td>
+        </tr>
         <tr class="filas">
             <td><input type="button" class="boton" id="nueve" value="9"></td>
             <td><input type="button" class="boton" id="ocho" value="8"></td>
@@ -38,81 +42,76 @@
         </tr>
     </table>
     <!-- </form> -->
-
+    <!-- </div> -->
 </body>
 <script>
-    $(document).on('click', '.boton', function () {
-        // if (!$('#resultado').html()) {
-        if ($('#operador').html() == "") {
-            let id = $(this).val();
-            // console.log(id);
-            // console.log('entra');
-            $('#digito').append(id);
-            // }
-            // let primervalor = parseInt($('#result').attr('placeholder').split('+', 1));
-            // let valoresSuma = $('#result').attr('placeholder').split('+');
-            // let valoresResta = $('#result').attr('placeholder').split('-');
-            // primervalorSuma = valoresSuma[0]
-            // segundovalorSuma = valoresSuma[1];
-            // primervalorResta = valoresResta[0]
-            // segundovalorResta = valoresResta[1];
+    function operacion(data) {
+        let parametro1 = parseInt($('#digito').html())
+        let parametro2 = parseInt($('#digitob').html())
+        let resultado = 0;
+        switch (data) {
+            case '+':
+                resultado = parametro1 + parametro2;
+                break;
+            case '-':
+                resultado = parametro1 - parametro2;
+                break;
+            default:
+                resultado = 0;
         }
-        // } else {
-        //     $('#resultado').empty().append($('#resultado').html());
-        // }
+        return resultado;
+    }
+    $(document).on('click', '.boton', function () {
+        if (!$('#resultado').html()) {
+            if ($('#operador').html() == "") {
+                let id = $(this).val();
+                $('#digito').append(id);
+            }
+        } else {
+            $('#resultado').empty();
+            $('#operador').empty();
+            $('#digito').empty();
+            $('#digitob').empty();
+            let id = $(this).val();
+            $('#digito').append(id);
+        }
     })
     $(document).on('click', '.operador', function () {
         if (!$('#resultado').html()) {
-            let id = $(this).val();
-            // console.log(id);
-            $('#operador').append(id)
-        } else {
-            let id = $(this).val();
-            $('#operador').empty().append(id);
-            $('#digito').empty().append($('#resultado').html());
-            $('#resultado').empty()
-        }
-    })
-    $(document).on('click', '.boton', function () {
-        if (!$('#digitob').html()) {
-            if ($('#operador').html()) {
+            if ($('#operador').html() && $('#digitob').html()) {
+                let resultado = operacion($('#operador').html());
+                $('#digito').empty().append(resultado);
                 let id = $(this).val();
-                $('#digitob').append(id);
+                $('#operador').empty().append(id);
+                $('#digitob').empty();
+            } else {
+                let id = $(this).val();
+                $('#operador').empty().append(id);
             }
         } else {
             let id = $(this).val();
-            $('#digitob').empty().append(id);
+            $('#digitob').empty();
+            $('#operador').empty().append(id);
+            $('#digito').empty().append($('#resultado').html());
+            $('#resultado').empty();
+        }
+    })
+    $(document).on('click', '.boton', function () {
+        if ($('#operador').html()) {
+            let id = $(this).val();
+            $('#digitob').append(id);
         }
     })
     $(document).on('click', '.solucion', function () {
-        let parametro1 = parseInt($('#digito').html())
-        let parametro2 = parseInt($('#digitob').html())
-        let resultado = 0
-        // console.log($('#operador').html());
-        if ($('#operador').html() == '+') {
-            resultado = parametro1 + parametro2;
+        if (($('#digito').html() && ($('#digitob').html()))) {
+            let resultado = operacion($('#operador').html());
+            $('#resultado').empty().append(resultado);
         }
-        if ($('#operador').html() == '-') {
-            resultado = parametro1 - parametro2;
+        if (($('#digito').html()) && (!$('#digitob').html())) {
+            let parametro1 = parseInt($('#digito').html())
+            $('#resultado').append(parametro1);
         }
-        $('#resultado').append(resultado);
     })
-    // console.log(id);
-    // console.log('entra');
-    // $(document).on('click', '.solucion', function () {
-    //     for(i=0;i<($('#result').attr('placeholder').length);i++){
-    //         let caracter=$('#result').attr('placeholder').charAt(i);
-    //         if (caracter=='+'){
-    //             let operacion = parseInt(primervalorSuma) + parseInt(segundovalorSuma);
-    //         }
-    //         else{
-    //             let operacion = parseInt(primervalorSuma) - parseInt(segundovalorSuma);
-
-    //         }
-    //     }
-    //     $('#result').attr('placeholder', operacion);
-    //     // let operacion2 = parseInt(primervalorSuma) - parseInt(segundovalorSuma);
-    // })
 </script>
 
 </html>
